@@ -1,0 +1,83 @@
+//
+//  AYVibrantButton.h
+//  AYVibrantButton
+//
+//  http://github.com/a1anyip/AYVibrantButton
+//
+//  The MIT License (MIT)
+//
+//  Copyright (c) 2014 Alan Yip
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
+
+@import UIKit;
+
+typedef enum {
+	
+	AYVibrantButtonStyleInvert,
+	AYVibrantButtonStyleTranslucent
+	
+} AYVibrantButtonStyle;
+
+@interface AYVibrantButton : UIButton
+
+@property (nonatomic, assign) BOOL animated;
+@property (nonatomic, assign) CGFloat animationInterval;
+@property (nonatomic, assign) CGFloat translucencyAlpha;
+@property (nonatomic, assign) CGFloat cornerRadius;
+@property (nonatomic, assign) CGFloat borderWidth;
+@property (nonatomic, copy) NSString *text;
+@property (nonatomic, retain) UIFont *font;
+
+#ifdef __IPHONE_8_0
+// the vibrancy effect to be applied on the button
+@property (nonatomic, retain) UIVibrancyEffect *vibrancyEffect;
+#endif
+
+// the background color when vibrancy effect is nil, or not supported.
+@property (nonatomic, retain) UIColor *backgroundColor;
+
+// this is the only method to initialize a vibrant button
+- (instancetype)initWithFrame:(CGRect)frame style:(AYVibrantButtonStyle)style;
+
+@end
+
+typedef enum {
+	
+	AYVibrantButtonOverlayStyleNormal,
+	AYVibrantButtonOverlayStyleInvert
+	
+} AYVibrantButtonOverlayStyle;
+
+@interface AYVibrantButtonOverlay : UIView
+
+// numeric configurations
+@property (nonatomic, assign) CGFloat cornerRadius;
+@property (nonatomic, assign) CGFloat borderWidth;
+
+// display text
+@property (nonatomic, copy) NSString *text;
+@property (nonatomic, retain) UIFont *font;
+
+// background color
+@property (nonatomic, retain) UIColor *backgroundColor;
+
+- (instancetype)initWithStyle:(AYVibrantButtonOverlayStyle)style;
+
+@end
