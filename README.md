@@ -77,7 +77,7 @@ translucentButton.font = [UIFont systemFontOfSize:18.0];
 
 ````objective-c
 AYVibrantButton *button = [[AYVibrantButton alloc] initWithFrame:CGRectZero style:AYVibrantButtonStyleTranslucent];
-button.vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
+button.vibrancyEffect = nil;
 button.text = @"Any Color";
 button.font = [UIFont systemFontOfSize:18.0];
 button.backgroundColor = [UIColor blackColor];
