@@ -21,6 +21,20 @@ effectView.frame = self.view.bounds;
 [self.view addSubview:effectView];
 ```
 
+## Installation
+
+### CocoaPods
+
+Add the following line to the `Podfile`.
+
+```
+pod "AYVibrantButton"
+```
+
+### Manual Installation
+
+Simply add `AYVibrantButton.h` and `AYVibrantButton.m` to your project.
+
 ## Examples
 
 ### Invert style with vibrancy effect
