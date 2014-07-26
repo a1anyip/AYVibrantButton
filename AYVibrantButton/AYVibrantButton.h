@@ -39,7 +39,8 @@ typedef enum {
 
 @property (nonatomic, assign) BOOL animated;
 @property (nonatomic, assign) CGFloat animationInterval;
-@property (nonatomic, assign) CGFloat translucencyAlpha;
+@property (nonatomic, assign) CGFloat translucencyAlphaNormal;
+@property (nonatomic, assign) CGFloat translucencyAlphaHighlighted;
 @property (nonatomic, assign) CGFloat cornerRadius;
 @property (nonatomic, assign) CGFloat borderWidth;
 @property (nonatomic, copy) NSString *text;

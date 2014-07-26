@@ -29,7 +29,8 @@
 #import "AYVibrantButton.h"
 
 #define kAYVibrantButtonDefaultAnimationInterval 0.15
-#define kAYVibrantButtonDefaultTranslucencyAlpha 0.6
+#define kAYVibrantButtonDefaultTranslucencyAlphaNormal 1.0
+#define kAYVibrantButtonDefaultTranslucencyAlphaHighlighted 0.6
 #define kAYVibrantButtonDefaultCornerRadius 4.0
 #define kAYVibrantButtonDefaultBorderWidth 0.6
 #define kAYVibrantButtonDefaultFontSize 14.0
@@ -77,7 +78,8 @@
 		_animationInterval = kAYVibrantButtonDefaultAnimationInterval;
 		_cornerRadius = kAYVibrantButtonDefaultCornerRadius;
 		_borderWidth = kAYVibrantButtonDefaultBorderWidth;
-		_translucencyAlpha = kAYVibrantButtonDefaultTranslucencyAlpha;
+		_translucencyAlphaNormal = kAYVibrantButtonDefaultTranslucencyAlphaNormal;
+		_translucencyAlphaHighlighted = kAYVibrantButtonDefaultTranslucencyAlphaHighlighted;
 		
 		// create overlay views
 		[self createOverlays];
@@ -109,7 +111,7 @@
 		self.highlightedOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleInvert];
 		self.highlightedOverlay.alpha = 0.0;
 	} else if (self.style == AYVibrantButtonStyleTranslucent) {
-		self.normalOverlay.alpha = self.translucencyAlpha;
+		self.normalOverlay.alpha = self.translucencyAlphaNormal;
 	}
 	
 #ifndef __IPHONE_8_0
@@ -129,7 +131,7 @@
 			self.normalOverlay.alpha = 0.0;
 			self.highlightedOverlay.alpha = 1.0;
 		} else if (self.style == AYVibrantButtonStyleTranslucent) {
-			self.normalOverlay.alpha = 1.0;
+			self.normalOverlay.alpha = self.translucencyAlphaHighlighted;
 		}
 	};
 	
@@ -147,7 +149,7 @@
 			self.normalOverlay.alpha = 1.0;
 			self.highlightedOverlay.alpha = 0.0;
 		} else if (self.style == AYVibrantButtonStyleTranslucent) {
-			self.normalOverlay.alpha = self.translucencyAlpha;
+			self.normalOverlay.alpha = self.translucencyAlphaNormal;
 		}
 	};
 	
