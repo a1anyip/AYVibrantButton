@@ -3,6 +3,8 @@ AYVibrantButton
 
 AYVibrantButton is a stylish button with iOS 8 vibrancy effect. It is a subclass of `UIButton` that has a simple yet elegant appearance and built-in support for `UIVisualEffectView` and `UIVibrancyEffect` classes introduced in iOS 8. Yet, it can be used on iOS 7 without the vibrancy effect.
 
+![Screenshot](https://github.com/a1anyip/AYVibrantButton/blob/master/Readme/screenshot.png?raw=true)
+
 ## Configurations
 
 Vibrant buttons can be configured with one of the two supported button styles, **invert** and **translucent** (see examples below). Some basic properties like **text**, **font**, **corner radius**, **border width** and **background color** (for no vibrancy effect) can all be changed easily.
