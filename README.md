@@ -37,6 +37,8 @@ Simply add `AYVibrantButton.h` and `AYVibrantButton.m` to your project.
 
 ## Examples
 
+The following images show the normal and highlighted (being pressed) button appearances.
+
 ### Invert style with vibrancy effect
 
 ![Invert Dark](https://github.com/a1anyip/AYVibrantButton/blob/master/Readme/invert2-dark.gif?raw=true)
