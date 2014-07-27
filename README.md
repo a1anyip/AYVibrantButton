@@ -7,7 +7,7 @@ AYVibrantButton is a stylish button with iOS 8 vibrancy effect. It is a subclass
 
 ## Configurations
 
-Vibrant buttons can be configured with one of the two supported button styles, **invert** and **translucent** (see examples below). Some basic properties like **text**, **font**, **corner radius**, **border width** and **background color** (for no vibrancy effect) can all be changed easily.
+Vibrant buttons can be configured with one of the two supported button styles, **invert** and **translucent** (see examples below). Some basic properties like **icon**, **text**, **font**, **corner radius**, **border width** and **background color** (for no vibrancy effect) can all be changed easily.
 
 The default vibrancy effect is for blur effect `UIBlurEffectStyleLight`. It could be set to any `UIVibrancyEffect` instance. For today extensions, it should be set to `[UIVibrancyEffect notificationCenterVibrancyEffect]`.
 
