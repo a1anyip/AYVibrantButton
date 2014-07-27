@@ -30,7 +30,7 @@
 
 #define kAYVibrantButtonDefaultAnimationInterval 0.15
 #define kAYVibrantButtonDefaultTranslucencyAlphaNormal 1.0
-#define kAYVibrantButtonDefaultTranslucencyAlphaHighlighted 0.6
+#define kAYVibrantButtonDefaultTranslucencyAlphaHighlighted 0.5
 #define kAYVibrantButtonDefaultCornerRadius 4.0
 #define kAYVibrantButtonDefaultBorderWidth 0.6
 #define kAYVibrantButtonDefaultFontSize 14.0
@@ -178,6 +178,11 @@
 	self.highlightedOverlay.borderWidth = borderWidth;
 }
 
+- (void)setIcon:(UIImage *)icon {
+	self.normalOverlay.icon = icon;
+	self.highlightedOverlay.icon = icon;
+}
+
 - (void)setText:(NSString *)text {
 	self.normalOverlay.text = text;
 	self.highlightedOverlay.text = text;
@@ -253,21 +258,53 @@
 	
 	[super drawRect:rect];
 	
-	if (self.bounds.size.width == 0 || self.bounds.size.height == 0) return;
+	CGSize size = self.bounds.size;
+	if (size.width == 0 || size.height == 0) return;
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextClearRect(context, self.bounds);
 	
-	// draw background and border
-	UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectInset(self.bounds, self.borderWidth, self.borderWidth) cornerRadius:self.cornerRadius];
-	path.lineWidth = self.borderWidth;
 	[self.backgroundColor setStroke];
+	[self.backgroundColor setFill];
+	
+	CGRect boxRect = CGRectInset(self.bounds, self.borderWidth, self.borderWidth);
+	
+	// draw background and border
+	UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:boxRect cornerRadius:self.cornerRadius];
+	path.lineWidth = self.borderWidth;
 	[path stroke];
 	
 	if (self.style == AYVibrantButtonOverlayStyleInvert) {
 		// fill the rounded rectangle area
-		[self.backgroundColor setFill];
 		[path fill];
+	}
+	
+	CGContextClipToRect(context, boxRect);
+	
+	// draw icon
+	if (self.icon != nil) {
+		
+		CGSize iconSize = self.icon.size;
+		CGRect iconRect = CGRectMake((size.width - iconSize.width) / 2,
+									 (size.height - iconSize.height) / 2,
+									 iconSize.width,
+									 iconSize.height);
+		
+		CGContextTranslateCTM(context, 0, size.height);
+		CGContextScaleCTM(context, 1.0, -1.0);
+		
+		if (self.style == AYVibrantButtonOverlayStyleNormal) {
+			// ref: http://blog.alanyip.me/tint-transparent-images-on-ios/
+			CGContextSetBlendMode(context, kCGBlendModeNormal);
+			CGContextFillRect(context, iconRect);
+			CGContextSetBlendMode(context, kCGBlendModeDestinationIn);
+		} else if (self.style == AYVibrantButtonOverlayStyleInvert) {
+			// this will make the CGContextDrawImage below clear the image area
+			CGContextSetBlendMode(context, kCGBlendModeDestinationOut);
+		}
+		
+		// for some reason, drawInRect does not work here
+		CGContextDrawImage(context, iconRect, self.icon.CGImage);
 	}
 	
 	// draw text
@@ -278,19 +315,18 @@
 		style.alignment = NSTextAlignmentCenter;
 		
 		if (self.style == AYVibrantButtonOverlayStyleInvert) {
-			// this will make the drawInRect method below clear the text area
+			// this will make the drawInRect below clear the text area
 			CGContextSetBlendMode(context, kCGBlendModeClear);
 		}
 		
-		[self.text drawInRect:CGRectMake(0.0, (self.bounds.size.height - self.textHeight) / 2, self.bounds.size.width, self.textHeight) withAttributes:@{ NSFontAttributeName:self.font, NSForegroundColorAttributeName:self.backgroundColor, NSParagraphStyleAttributeName:style }];
+		[self.text drawInRect:CGRectMake(0.0, (size.height - self.textHeight) / 2, size.width, self.textHeight) withAttributes:@{ NSFontAttributeName:self.font, NSForegroundColorAttributeName:self.backgroundColor, NSParagraphStyleAttributeName:style }];
 	}
 }
 
 #pragma mark - Override Getters
 
 - (UIFont *)font {
-	if (_font == nil) _font = [UIFont systemFontOfSize:kAYVibrantButtonDefaultFontSize];
-	return _font;
+	return _font == nil ? [UIFont systemFontOfSize:kAYVibrantButtonDefaultFontSize] : _font;
 }
 
 - (UIColor *)backgroundColor {
@@ -309,8 +345,15 @@
 	[self setNeedsDisplay];
 }
 
+- (void)setIcon:(UIImage *)icon {
+	_icon = icon;
+	_text = nil;
+	[self setNeedsDisplay];
+}
+
 - (void)setText:(NSString *)text {
-	_text = text;
+	_icon = nil;
+	_text = [text copy];
 	[self _updateTextHeight];
 	[self setNeedsDisplay];
 }

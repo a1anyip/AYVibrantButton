@@ -43,16 +43,17 @@ typedef enum {
 @property (nonatomic, assign) CGFloat translucencyAlphaHighlighted;
 @property (nonatomic, assign) CGFloat cornerRadius;
 @property (nonatomic, assign) CGFloat borderWidth;
-@property (nonatomic, copy) NSString *text;
-@property (nonatomic, retain) UIFont *font;
+@property (nonatomic, strong) UIImage *icon;
+@property (nonatomic, copy)   NSString *text;
+@property (nonatomic, strong) UIFont *font;
 
 #ifdef __IPHONE_8_0
 // the vibrancy effect to be applied on the button
-@property (nonatomic, retain) UIVibrancyEffect *vibrancyEffect;
+@property (nonatomic, strong) UIVibrancyEffect *vibrancyEffect;
 #endif
 
 // the background color when vibrancy effect is nil, or not supported.
-@property (nonatomic, retain) UIColor *backgroundColor;
+@property (nonatomic, strong) UIColor *backgroundColor;
 
 // this is the only method to initialize a vibrant button
 - (instancetype)initWithFrame:(CGRect)frame style:(AYVibrantButtonStyle)style;
@@ -72,12 +73,15 @@ typedef enum {
 @property (nonatomic, assign) CGFloat cornerRadius;
 @property (nonatomic, assign) CGFloat borderWidth;
 
+// icon image
+@property (nonatomic, strong) UIImage *icon;
+
 // display text
-@property (nonatomic, copy) NSString *text;
-@property (nonatomic, retain) UIFont *font;
+@property (nonatomic, copy)   NSString *text;
+@property (nonatomic, strong) UIFont *font;
 
 // background color
-@property (nonatomic, retain) UIColor *backgroundColor;
+@property (nonatomic, strong) UIColor *backgroundColor;
 
 - (instancetype)initWithStyle:(AYVibrantButtonOverlayStyle)style;
 
