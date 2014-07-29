@@ -104,11 +104,11 @@
 }
 
 - (void)createOverlays {
-    if (self.style == AYVibrantButtonStyleFill) {
-        self.normalOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleInvert];
-    } else {
-        self.normalOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleNormal];
-    }
+	if (self.style == AYVibrantButtonStyleFill) {
+		self.normalOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleInvert];
+	} else {
+		self.normalOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleNormal];
+	}
 	
 	if (self.style == AYVibrantButtonStyleInvert) {
 		self.highlightedOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleInvert];
