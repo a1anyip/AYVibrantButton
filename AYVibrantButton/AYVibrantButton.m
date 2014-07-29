@@ -207,6 +207,7 @@
 }
 
 - (void)setAlpha:(CGFloat)alpha {
+
 	_alpha = alpha;
 
 	if (self.activeTouch) {
