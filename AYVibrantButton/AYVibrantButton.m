@@ -104,13 +104,16 @@
 }
 
 - (void)createOverlays {
-	
-	self.normalOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleNormal];
+    if (self.style == AYVibrantButtonStyleFill) {
+        self.normalOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleInvert];
+    } else {
+        self.normalOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleNormal];
+    }
 	
 	if (self.style == AYVibrantButtonStyleInvert) {
 		self.highlightedOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleInvert];
 		self.highlightedOverlay.alpha = 0.0;
-	} else if (self.style == AYVibrantButtonStyleTranslucent) {
+	} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
 		self.normalOverlay.alpha = self.translucencyAlphaNormal;
 	}
 	
@@ -130,7 +133,7 @@
 		if (self.style == AYVibrantButtonStyleInvert) {
 			self.normalOverlay.alpha = 0.0;
 			self.highlightedOverlay.alpha = 1.0;
-		} else if (self.style == AYVibrantButtonStyleTranslucent) {
+		} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
 			self.normalOverlay.alpha = self.translucencyAlphaHighlighted;
 		}
 	};
@@ -148,7 +151,7 @@
 		if (self.style == AYVibrantButtonStyleInvert) {
 			self.normalOverlay.alpha = 1.0;
 			self.highlightedOverlay.alpha = 0.0;
-		} else if (self.style == AYVibrantButtonStyleTranslucent) {
+		} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
 			self.normalOverlay.alpha = self.translucencyAlphaNormal;
 		}
 	};

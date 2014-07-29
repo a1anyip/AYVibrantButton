@@ -31,7 +31,8 @@
 typedef enum {
 	
 	AYVibrantButtonStyleInvert,
-	AYVibrantButtonStyleTranslucent
+    AYVibrantButtonStyleTranslucent,
+    AYVibrantButtonStyleFill
 	
 } AYVibrantButtonStyle;
 
