@@ -104,6 +104,7 @@
 }
 
 - (void)createOverlays {
+	
 	if (self.style == AYVibrantButtonStyleFill) {
 		self.normalOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleInvert];
 	} else {
