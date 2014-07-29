@@ -51,6 +51,8 @@
 @property (nonatomic, strong) AYVibrantButtonOverlay *normalOverlay;
 @property (nonatomic, strong) AYVibrantButtonOverlay *highlightedOverlay;
 
+@property (nonatomic, assign) BOOL activeTouch;
+
 - (void)createOverlays;
 
 @end
@@ -82,6 +84,7 @@
 		_translucencyAlphaNormal = kAYVibrantButtonDefaultTranslucencyAlphaNormal;
 		_translucencyAlphaHighlighted = kAYVibrantButtonDefaultTranslucencyAlphaHighlighted;
 		_alpha = kAYVibrantButtonDefaultAlpha;
+		_activeTouch = NO;
 		
 		// create overlay views
 		[self createOverlays];
@@ -132,6 +135,8 @@
 
 - (void)touchDown {
 	
+	self.activeTouch = YES;
+
 	void(^update)(void) = ^(void) {
 		if (self.style == AYVibrantButtonStyleInvert) {
 			self.normalOverlay.alpha = 0.0;
@@ -150,6 +155,8 @@
 
 - (void)touchUp {
 	
+	self.activeTouch = NO;
+
 	void(^update)(void) = ^(void) {
 		if (self.style == AYVibrantButtonStyleInvert) {
 			self.normalOverlay.alpha = self.alpha;
@@ -197,6 +204,26 @@
 - (void)setFont:(UIFont *)font {
 	self.normalOverlay.font = font;
 	self.highlightedOverlay.font = font;
+}
+
+- (void)setAlpha:(CGFloat)alpha {
+	_alpha = alpha;
+
+	if (self.activeTouch) {
+		if (self.style == AYVibrantButtonStyleInvert) {
+			self.normalOverlay.alpha = 0.0;
+			self.highlightedOverlay.alpha = self.alpha;
+		} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
+			self.normalOverlay.alpha = self.translucencyAlphaHighlighted * self.alpha;
+		}
+	} else {
+		if (self.style == AYVibrantButtonStyleInvert) {
+			self.normalOverlay.alpha = self.alpha;
+			self.highlightedOverlay.alpha = 0.0;
+		} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
+			self.normalOverlay.alpha = self.translucencyAlphaNormal * self.alpha;
+		}
+	}
 }
 
 #ifdef __IPHONE_8_0
