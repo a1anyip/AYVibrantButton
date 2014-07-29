@@ -47,6 +47,7 @@ typedef enum {
 @property (nonatomic, strong) UIImage *icon;
 @property (nonatomic, copy)   NSString *text;
 @property (nonatomic, strong) UIFont *font;
+@property (nonatomic, assign) CGFloat alpha;
 
 #ifdef __IPHONE_8_0
 // the vibrancy effect to be applied on the button
