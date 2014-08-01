@@ -11,31 +11,8 @@
 		DD4F2911198BF6F800A54714 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4F2910198BF6F800A54714 /* main.m */; };
 		DD4F2914198BF6F800A54714 /* AYAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4F2913198BF6F800A54714 /* AYAppDelegate.m */; };
 		DD4F2917198BF6F800A54714 /* AYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4F2916198BF6F800A54714 /* AYViewController.m */; };
+		DD4F293F198BFF6400A54714 /* Resources.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD4F293E198BFF6400A54714 /* Resources.xcassets */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		DD4F2922198BF6F800A54714 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DD4F2903198BF6F800A54714 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DD4F290A198BF6F800A54714;
-			remoteInfo = "AYVibrantButton Example";
-		};
-		DD4F2933198BF74100A54714 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DD4F2903198BF6F800A54714 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DD4F290A198BF6F800A54714;
-			remoteInfo = "AYVibrantButton Example";
-		};
-		DD4F2937198BFF1200A54714 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DD4F2903198BF6F800A54714 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DD4F290A198BF6F800A54714;
-			remoteInfo = "AYVibrantButton Example";
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		5D3E02433853415F9E9B6DFF /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -47,7 +24,7 @@
 		DD4F2913198BF6F800A54714 /* AYAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYAppDelegate.m; sourceTree = "<group>"; };
 		DD4F2915198BF6F800A54714 /* AYViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYViewController.h; sourceTree = "<group>"; };
 		DD4F2916198BF6F800A54714 /* AYViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYViewController.m; sourceTree = "<group>"; };
-		DD4F2921198BF6F800A54714 /* AYVibrantButton ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AYVibrantButton ExampleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD4F293E198BFF6400A54714 /* Resources.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Resources.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,13 +33,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				164F03279C0C4D99B745189A /* libPods.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DD4F291E198BF6F800A54714 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,8 +52,8 @@
 			children = (
 				DD4F290D198BF6F800A54714 /* AYVibrantButton Example */,
 				DD4F290C198BF6F800A54714 /* Products */,
-				9E2F7E78D2C048D3B8EF8425 /* Pods.xcconfig */,
 				C6FF74A9A97B466F871F0C4F /* Frameworks */,
+				9E2F7E78D2C048D3B8EF8425 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -91,7 +61,6 @@
 			isa = PBXGroup;
 			children = (
 				DD4F290B198BF6F800A54714 /* AYVibrantButton Example.app */,
-				DD4F2921198BF6F800A54714 /* AYVibrantButton ExampleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -100,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				DD4F2931198BF70000A54714 /* Classes */,
+				DD4F293D198BFF5300A54714 /* Resources */,
 				DD4F290E198BF6F800A54714 /* Supporting Files */,
 			);
 			path = "AYVibrantButton Example";
@@ -117,9 +87,9 @@
 		DD4F2931198BF70000A54714 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				DD4F2932198BF73700A54714 /* Controllers */,
 				DD4F2912198BF6F800A54714 /* AYAppDelegate.h */,
 				DD4F2913198BF6F800A54714 /* AYAppDelegate.m */,
+				DD4F2932198BF73700A54714 /* Controllers */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -131,6 +101,14 @@
 				DD4F2916198BF6F800A54714 /* AYViewController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		DD4F293D198BFF5300A54714 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DD4F293E198BFF6400A54714 /* Resources.xcassets */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,26 +133,6 @@
 			productReference = DD4F290B198BF6F800A54714 /* AYVibrantButton Example.app */;
 			productType = "com.apple.product-type.application";
 		};
-		DD4F2920198BF6F800A54714 /* AYVibrantButton ExampleTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DD4F292E198BF6F800A54714 /* Build configuration list for PBXNativeTarget "AYVibrantButton ExampleTests" */;
-			buildPhases = (
-				DD4F291D198BF6F800A54714 /* Sources */,
-				DD4F291E198BF6F800A54714 /* Frameworks */,
-				DD4F291F198BF6F800A54714 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				DD4F2923198BF6F800A54714 /* PBXTargetDependency */,
-				DD4F2934198BF74100A54714 /* PBXTargetDependency */,
-				DD4F2938198BFF1200A54714 /* PBXTargetDependency */,
-			);
-			name = "AYVibrantButton ExampleTests";
-			productName = "AYVibrantButton ExampleTests";
-			productReference = DD4F2921198BF6F800A54714 /* AYVibrantButton ExampleTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -186,10 +144,6 @@
 				TargetAttributes = {
 					DD4F290A198BF6F800A54714 = {
 						CreatedOnToolsVersion = 6.0;
-					};
-					DD4F2920198BF6F800A54714 = {
-						CreatedOnToolsVersion = 6.0;
-						TestTargetID = DD4F290A198BF6F800A54714;
 					};
 				};
 			};
@@ -207,7 +161,6 @@
 			projectRoot = "";
 			targets = (
 				DD4F290A198BF6F800A54714 /* AYVibrantButton Example */,
-				DD4F2920198BF6F800A54714 /* AYVibrantButton ExampleTests */,
 			);
 		};
 /* End PBXProject section */
@@ -217,13 +170,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DD4F291F198BF6F800A54714 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				DD4F293F198BFF6400A54714 /* Resources.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,36 +220,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DD4F291D198BF6F800A54714 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		DD4F2923198BF6F800A54714 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DD4F290A198BF6F800A54714 /* AYVibrantButton Example */;
-			targetProxy = DD4F2922198BF6F800A54714 /* PBXContainerItemProxy */;
-		};
-		DD4F2934198BF74100A54714 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DD4F290A198BF6F800A54714 /* AYVibrantButton Example */;
-			targetProxy = DD4F2933198BF74100A54714 /* PBXContainerItemProxy */;
-		};
-		DD4F2938198BFF1200A54714 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DD4F290A198BF6F800A54714 /* AYVibrantButton Example */;
-			targetProxy = DD4F2937198BFF1200A54714 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		DD4F2929198BF6F800A54714 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E2F7E78D2C048D3B8EF8425 /* Pods.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -344,6 +267,7 @@
 		};
 		DD4F292A198BF6F800A54714 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E2F7E78D2C048D3B8EF8425 /* Pods.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -381,11 +305,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9E2F7E78D2C048D3B8EF8425 /* Pods.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/AYVibrantButton\"",
+					"$(CONFIGURATION_BUILD_DIR)",
+				);
 				INFOPLIST_FILE = "AYVibrantButton Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -393,45 +324,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9E2F7E78D2C048D3B8EF8425 /* Pods.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/AYVibrantButton\"",
+					"$(CONFIGURATION_BUILD_DIR)",
+				);
 				INFOPLIST_FILE = "AYVibrantButton Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		DD4F292F198BF6F800A54714 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AYVibrantButton Example.app/AYVibrantButton Example";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "AYVibrantButton ExampleTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-			};
-			name = Debug;
-		};
-		DD4F2930198BF6F800A54714 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AYVibrantButton Example.app/AYVibrantButton Example";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "AYVibrantButton ExampleTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -452,15 +356,6 @@
 			buildConfigurations = (
 				DD4F292C198BF6F800A54714 /* Debug */,
 				DD4F292D198BF6F800A54714 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DD4F292E198BF6F800A54714 /* Build configuration list for PBXNativeTarget "AYVibrantButton ExampleTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DD4F292F198BF6F800A54714 /* Debug */,
-				DD4F2930198BF6F800A54714 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

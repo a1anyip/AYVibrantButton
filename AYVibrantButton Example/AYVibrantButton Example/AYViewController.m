@@ -1,5 +1,9 @@
 //
 //  AYViewController.m
+//  AYVibrantButton Example
+//
+//  http://github.com/a1anyip/AYVibrantButton
+//
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 Alan Yip
@@ -21,7 +25,6 @@
 //  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
-//
 
 
 #pragma mark - Imports
@@ -87,8 +90,8 @@ static const CGFloat fontSize = 18.0;
     /**
      Left side of the view contains buttons over a a dark blur effect 
      */
-    UIBlurEffect *darkBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    self.leftVisualEffectView = [[UIVisualEffectView alloc]initWithEffect:darkBlurEffect];
+    UIBlurEffect *leftBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    self.leftVisualEffectView = [[UIVisualEffectView alloc]initWithEffect:leftBlurEffect];
     self.leftVisualEffectView.frame = CGRectMake(0.0, 0.0, 0.5 * CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
     [self.view addSubview:self.leftVisualEffectView];
     
@@ -96,7 +99,7 @@ static const CGFloat fontSize = 18.0;
     self.leftInvertVibrancyButton = ({
         AYVibrantButton *button = [[AYVibrantButton alloc]initWithFrame:CGRectMake(0.0, 0.0, 128.0, 44.0) style:AYVibrantButtonStyleInvert];
         button.center = CGPointMake(0.25 * CGRectGetWidth(self.view.bounds), 0.25 * CGRectGetHeight(self.view.bounds));
-        button.vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:darkBlurEffect];
+        button.vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:leftBlurEffect];
         button.font = [UIFont systemFontOfSize:fontSize];
         button.text = @"Invert";
         button;
@@ -107,7 +110,7 @@ static const CGFloat fontSize = 18.0;
     self.leftTranslucentVibrancyButton = ({
         AYVibrantButton *button = [[AYVibrantButton alloc]initWithFrame:CGRectMake(0.0, 0.0, 128.0, 44.0) style:AYVibrantButtonStyleTranslucent];
         button.center = CGPointMake(0.25 * CGRectGetWidth(self.view.bounds), 0.50 * CGRectGetHeight(self.view.bounds));
-        button.vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:darkBlurEffect];
+        button.vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:leftBlurEffect];
         button.font = [UIFont systemFontOfSize:fontSize];
         button.text = @"Translucent";
         button;
@@ -119,6 +122,7 @@ static const CGFloat fontSize = 18.0;
         AYVibrantButton *button = [[AYVibrantButton alloc]initWithFrame:CGRectMake(0.0, 0.0, 128.0, 44.0) style:AYVibrantButtonStyleTranslucent];
         button.center = CGPointMake(0.25 * CGRectGetWidth(self.view.bounds), 0.75 * CGRectGetHeight(self.view.bounds));
         button.font = [UIFont systemFontOfSize:fontSize];
+        button.backgroundColor = [UIColor whiteColor];
         button.vibrancyEffect = nil;
         button.text = @"Any Color";
         button;
@@ -129,18 +133,17 @@ static const CGFloat fontSize = 18.0;
     /** 
      Right side of the view contains buttons over a a light blur effect 
      */
-    UIBlurEffect *lightBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    self.rightVisualEffectView = [[UIVisualEffectView alloc]initWithEffect:lightBlurEffect];
+    UIBlurEffect *rightBlurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    self.rightVisualEffectView = [[UIVisualEffectView alloc]initWithEffect:rightBlurEffect];
     self.rightVisualEffectView.frame = CGRectMake(0.5 * CGRectGetWidth(self.view.bounds), 0.0,
                                                   0.5 * CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
     [self.view addSubview:self.rightVisualEffectView];
     
     // Invert vibrancy
     self.rightInvertVibrancyButton = ({
-        AYVibrantButton *button = [[AYVibrantButton alloc]initWithFrame:CGRectMake(0.0, 0.0, 128.0, 44.0)
-                                                                  style:AYVibrantButtonStyleInvert];
+        AYVibrantButton *button = [[AYVibrantButton alloc]initWithFrame:CGRectMake(0.0, 0.0, 128.0, 44.0) style:AYVibrantButtonStyleInvert];
         button.center = CGPointMake(0.25 * CGRectGetWidth(self.view.bounds), 0.25 * CGRectGetHeight(self.view.bounds));
-        button.vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:lightBlurEffect];
+        button.vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:rightBlurEffect];
         button.font = [UIFont systemFontOfSize:fontSize];
         button.text = @"Invert";
         button;
@@ -151,7 +154,7 @@ static const CGFloat fontSize = 18.0;
     self.rightTranslucentVibrancyButton = ({
         AYVibrantButton *button = [[AYVibrantButton alloc]initWithFrame:CGRectMake(0.0, 0.0, 128.0, 44.0) style:AYVibrantButtonStyleTranslucent];
         button.center = CGPointMake(0.25 * CGRectGetWidth(self.view.bounds), 0.50 * CGRectGetHeight(self.view.bounds));
-        button.vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:lightBlurEffect];
+        button.vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:rightBlurEffect];
         button.font = [UIFont systemFontOfSize:fontSize];
         button.text = @"Translucent";
         button;
@@ -160,9 +163,9 @@ static const CGFloat fontSize = 18.0;
     
     // Translucent
     self.rightTranslucentButton = ({
-        AYVibrantButton *button = [[AYVibrantButton alloc]initWithFrame:CGRectMake(0.0, 0.0, 128.0, 44.0)
-                                                                  style:AYVibrantButtonStyleTranslucent];
+        AYVibrantButton *button = [[AYVibrantButton alloc]initWithFrame:CGRectMake(0.0, 0.0, 128.0, 44.0) style:AYVibrantButtonStyleTranslucent];
         button.center = CGPointMake(0.25 * CGRectGetWidth(self.view.bounds), 0.75 * CGRectGetHeight(self.view.bounds));
+        button.backgroundColor = [UIColor whiteColor];
         button.font = [UIFont systemFontOfSize:fontSize];
         button.vibrancyEffect = nil;
         button.text = @"Any Color";

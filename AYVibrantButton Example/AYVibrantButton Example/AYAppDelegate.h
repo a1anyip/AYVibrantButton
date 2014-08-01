@@ -1,5 +1,9 @@
 //
 //  AYAppDelegate.h
+//  AYVibrantButton Example
+//
+//  http://github.com/a1anyip/AYVibrantButton
+//
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 Alan Yip
@@ -21,7 +25,6 @@
 //  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
-//
 
 
 #pragma mark - Imports

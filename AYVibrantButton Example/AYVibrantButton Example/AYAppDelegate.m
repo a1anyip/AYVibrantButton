@@ -1,5 +1,9 @@
 //
 //  AYAppDelegate.m
+//  AYVibrantButton Example
+//
+//  http://github.com/a1anyip/AYVibrantButton
+//
 //  The MIT License (MIT)
 //
 //  Copyright (c) 2014 Alan Yip
@@ -21,7 +25,6 @@
 //  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
-//
 
 
 #pragma mark
@@ -38,7 +41,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.backgroundColor = [UIColor blackColor];
     self.window.rootViewController = [AYViewController new];
     [self.window makeKeyAndVisible];
     return YES;
