@@ -184,26 +184,36 @@
 - (void)setCornerRadius:(CGFloat)cornerRadius {
 	self.normalOverlay.cornerRadius = cornerRadius;
 	self.highlightedOverlay.cornerRadius = cornerRadius;
+    
+    _cornerRadius = cornerRadius;
 }
 
 - (void)setBorderWidth:(CGFloat)borderWidth {
 	self.normalOverlay.borderWidth = borderWidth;
 	self.highlightedOverlay.borderWidth = borderWidth;
+    
+    _borderWidth = borderWidth;
 }
 
 - (void)setIcon:(UIImage *)icon {
 	self.normalOverlay.icon = icon;
 	self.highlightedOverlay.icon = icon;
+    
+    _icon = icon;
 }
 
 - (void)setText:(NSString *)text {
 	self.normalOverlay.text = text;
 	self.highlightedOverlay.text = text;
+    
+    _text = text;
 }
 
 - (void)setFont:(UIFont *)font {
 	self.normalOverlay.font = font;
 	self.highlightedOverlay.font = font;
+    
+    _font = font;
 }
 
 - (void)setAlpha:(CGFloat)alpha {
@@ -244,6 +254,8 @@
 		[self addSubview:self.normalOverlay];
 		[self addSubview:self.highlightedOverlay];
 	}
+    
+    _vibrancyEffect = vibrancyEffect;
 }
 #endif
 
