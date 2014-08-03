@@ -28,14 +28,17 @@
 
 #import "AYVibrantButton.h"
 
-#define kAYVibrantButtonDefaultAnimationInterval 0.15
+#define kAYVibrantButtonDefaultAnimationDuration 0.15
 #define kAYVibrantButtonDefaultAlpha 1.0
 #define kAYVibrantButtonDefaultTranslucencyAlphaNormal 1.0
 #define kAYVibrantButtonDefaultTranslucencyAlphaHighlighted 0.5
 #define kAYVibrantButtonDefaultCornerRadius 4.0
+#define kAYVibrantButtonDefaultRoundingCorners UIRectCornerAllCorners
 #define kAYVibrantButtonDefaultBorderWidth 0.6
 #define kAYVibrantButtonDefaultFontSize 14.0
 #define kAYVibrantButtonDefaultBackgroundColor [UIColor whiteColor]
+
+/** AYVibrantButton **/
 
 @interface AYVibrantButton () {
 	
@@ -52,10 +55,40 @@
 @property (nonatomic, strong) AYVibrantButtonOverlay *highlightedOverlay;
 
 @property (nonatomic, assign) BOOL activeTouch;
+@property (nonatomic, assign) BOOL hideRightBorder;
 
 - (void)createOverlays;
 
 @end
+
+/** AYVibrantButtonOverlay **/
+
+@interface AYVibrantButtonOverlay () {
+	
+	__strong UIFont *_font;
+	__strong UIColor *_backgroundColor;
+}
+
+@property (nonatomic, assign) AYVibrantButtonOverlayStyle style;
+@property (nonatomic, assign) CGFloat textHeight;
+@property (nonatomic, assign) BOOL hideRightBorder;
+
+- (void)_updateTextHeight;
+
+@end
+
+/** AYVibrantButtonGroup **/
+
+@interface AYVibrantButtonGroup ()
+
+@property (nonatomic, strong) NSArray *buttons;
+@property (nonatomic, assign) NSUInteger buttonCount;
+
+- (void)_initButtonGroupWithSelector:(SEL)selector andObjects:(NSArray *)objects style:(AYVibrantButtonStyle)style;
+
+@end
+
+/** AYVibrantButton **/
 
 @implementation AYVibrantButton
 
@@ -78,8 +111,9 @@
 		
 		// default values
 		_animated = YES;
-		_animationInterval = kAYVibrantButtonDefaultAnimationInterval;
+		_animationDuration = kAYVibrantButtonDefaultAnimationDuration;
 		_cornerRadius = kAYVibrantButtonDefaultCornerRadius;
+		_roundingCorners = kAYVibrantButtonDefaultRoundingCorners;
 		_borderWidth = kAYVibrantButtonDefaultBorderWidth;
 		_translucencyAlphaNormal = kAYVibrantButtonDefaultTranslucencyAlphaNormal;
 		_translucencyAlphaHighlighted = kAYVibrantButtonDefaultTranslucencyAlphaHighlighted;
@@ -147,7 +181,7 @@
 	};
 	
 	if (self.animated) {
-		[UIView animateWithDuration:self.animationInterval animations:update];
+		[UIView animateWithDuration:self.animationDuration animations:update];
 	} else {
 		update();
 	}
@@ -167,7 +201,7 @@
 	};
 	
 	if (self.animated) {
-		[UIView animateWithDuration:self.animationInterval animations:update];
+		[UIView animateWithDuration:self.animationDuration animations:update];
 	} else {
 		update();
 	}
@@ -181,35 +215,10 @@
 
 #pragma mark - Override Setters
 
-- (void)setCornerRadius:(CGFloat)cornerRadius {
-	self.normalOverlay.cornerRadius = cornerRadius;
-	self.highlightedOverlay.cornerRadius = cornerRadius;
-}
-
-- (void)setBorderWidth:(CGFloat)borderWidth {
-	self.normalOverlay.borderWidth = borderWidth;
-	self.highlightedOverlay.borderWidth = borderWidth;
-}
-
-- (void)setIcon:(UIImage *)icon {
-	self.normalOverlay.icon = icon;
-	self.highlightedOverlay.icon = icon;
-}
-
-- (void)setText:(NSString *)text {
-	self.normalOverlay.text = text;
-	self.highlightedOverlay.text = text;
-}
-
-- (void)setFont:(UIFont *)font {
-	self.normalOverlay.font = font;
-	self.highlightedOverlay.font = font;
-}
-
 - (void)setAlpha:(CGFloat)alpha {
-
+	
 	_alpha = alpha;
-
+	
 	if (self.activeTouch) {
 		if (self.style == AYVibrantButtonStyleInvert) {
 			self.normalOverlay.alpha = 0.0;
@@ -227,8 +236,46 @@
 	}
 }
 
+- (void)setCornerRadius:(CGFloat)cornerRadius {
+	_cornerRadius = cornerRadius;
+	self.normalOverlay.cornerRadius = cornerRadius;
+	self.highlightedOverlay.cornerRadius = cornerRadius;
+}
+
+- (void)setRoundingCorners:(UIRectCorner)roundingCorners {
+	_roundingCorners = roundingCorners;
+	self.normalOverlay.roundingCorners = roundingCorners;
+	self.highlightedOverlay.roundingCorners = roundingCorners;
+}
+
+- (void)setBorderWidth:(CGFloat)borderWidth {
+	_borderWidth = borderWidth;
+	self.normalOverlay.borderWidth = borderWidth;
+	self.highlightedOverlay.borderWidth = borderWidth;
+}
+
+- (void)setIcon:(UIImage *)icon {
+	_icon = icon;
+	self.normalOverlay.icon = icon;
+	self.highlightedOverlay.icon = icon;
+}
+
+- (void)setText:(NSString *)text {
+	_text = [text copy];
+	self.normalOverlay.text = text;
+	self.highlightedOverlay.text = text;
+}
+
+- (void)setFont:(UIFont *)font {
+	_font = font;
+	self.normalOverlay.font = font;
+	self.highlightedOverlay.font = font;
+}
+
 #ifdef __IPHONE_8_0
 - (void)setVibrancyEffect:(UIVibrancyEffect *)vibrancyEffect {
+	
+	_vibrancyEffect = vibrancyEffect;
 	
 	[self.normalOverlay removeFromSuperview];
 	[self.highlightedOverlay removeFromSuperview];
@@ -252,20 +299,15 @@
 	self.highlightedOverlay.backgroundColor = backgroundColor;
 }
 
-@end
-
-@interface AYVibrantButtonOverlay () {
-	
-	__strong UIFont *_font;
-	__strong UIColor *_backgroundColor;
+- (void)setHideRightBorder:(BOOL)hideRightBorder {
+	_hideRightBorder = hideRightBorder;
+	self.normalOverlay.hideRightBorder = hideRightBorder;
+	self.highlightedOverlay.hideRightBorder = hideRightBorder;
 }
 
-@property (nonatomic, assign) AYVibrantButtonOverlayStyle style;
-@property (nonatomic, assign) CGFloat textHeight;
-
-- (void)_updateTextHeight;
-
 @end
+
+/** AYVibrantButtonOverlay **/
 
 @implementation AYVibrantButtonOverlay
 
@@ -280,6 +322,7 @@
 	if (self = [super init]) {
 		
 		_cornerRadius = kAYVibrantButtonDefaultCornerRadius;
+		_roundingCorners = kAYVibrantButtonDefaultRoundingCorners;
 		_borderWidth = kAYVibrantButtonDefaultBorderWidth;
 		
 		self.opaque = NO;
@@ -301,10 +344,14 @@
 	[self.backgroundColor setStroke];
 	[self.backgroundColor setFill];
 	
-	CGRect boxRect = CGRectInset(self.bounds, self.borderWidth, self.borderWidth);
+	CGRect boxRect = CGRectInset(self.bounds, self.borderWidth / 2, self.borderWidth / 2);
+	
+	if (self.hideRightBorder) {
+		boxRect.size.width += self.borderWidth * 2;
+	}
 	
 	// draw background and border
-	UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:boxRect cornerRadius:self.cornerRadius];
+	UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:boxRect byRoundingCorners:self.roundingCorners cornerRadii:CGSizeMake(self.cornerRadius, self.cornerRadius)];
 	path.lineWidth = self.borderWidth;
 	[path stroke];
 	
@@ -324,9 +371,6 @@
 									 iconSize.width,
 									 iconSize.height);
 		
-		CGContextTranslateCTM(context, 0, size.height);
-		CGContextScaleCTM(context, 1.0, -1.0);
-		
 		if (self.style == AYVibrantButtonOverlayStyleNormal) {
 			// ref: http://blog.alanyip.me/tint-transparent-images-on-ios/
 			CGContextSetBlendMode(context, kCGBlendModeNormal);
@@ -336,6 +380,9 @@
 			// this will make the CGContextDrawImage below clear the image area
 			CGContextSetBlendMode(context, kCGBlendModeDestinationOut);
 		}
+		
+		CGContextTranslateCTM(context, 0, size.height);
+		CGContextScaleCTM(context, 1.0, -1.0);
 		
 		// for some reason, drawInRect does not work here
 		CGContextDrawImage(context, iconRect, self.icon.CGImage);
@@ -374,6 +421,11 @@
 	[self setNeedsDisplay];
 }
 
+- (void)setRoundingCorners:(UIRectCorner)roundingCorners {
+	_roundingCorners = roundingCorners;
+	[self setNeedsDisplay];
+}
+
 - (void)setBorderWidth:(CGFloat)borderWidth {
 	_borderWidth = borderWidth;
 	[self setNeedsDisplay];
@@ -403,11 +455,166 @@
 	[self setNeedsDisplay];
 }
 
+- (void)setHideRightBorder:(BOOL)hideRightBorder {
+	_hideRightBorder = hideRightBorder;
+	[self setNeedsDisplay];
+}
+
 #pragma mark - Private Methods
 
 - (void)_updateTextHeight {
 	CGRect bounds = [self.text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{ NSFontAttributeName:self.font } context:nil];
 	self.textHeight = bounds.size.height;
+}
+
+@end
+
+/** AYVibrantButtonGroup **/
+
+@implementation AYVibrantButtonGroup
+
+- (instancetype)init {
+	NSLog(@"AYVibrantButtonGroup must be initialized with initWithFrame:buttonTitles:style: or initWithFrame:buttonIcons:style:");
+	return nil;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+	NSLog(@"AYVibrantButtonGroup must be initialized with initWithFrame:buttonTitles:style: or initWithFrame:buttonIcons:style:");
+	return nil;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame buttonTitles:(NSArray *)buttonTitles style:(AYVibrantButtonStyle)style {
+	if (self = [super initWithFrame:frame]) {
+		[self _initButtonGroupWithSelector:@selector(setText:) andObjects:buttonTitles style:style];
+	}
+	return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame buttonIcons:(NSArray *)buttonIcons style:(AYVibrantButtonStyle)style {
+	if (self = [super initWithFrame:frame]) {
+		[self _initButtonGroupWithSelector:@selector(setIcon:) andObjects:buttonIcons style:style];
+	}
+	return self;
+}
+
+- (void)layoutSubviews {
+	
+	if (self.buttonCount == 0) return;
+	
+	CGSize size = self.bounds.size;
+	CGFloat buttonWidth = size.width / self.buttonCount;
+	CGFloat buttonHeight = size.height;
+	
+	[self.buttons enumerateObjectsUsingBlock:^void(AYVibrantButton *button, NSUInteger idx, BOOL *stop) {
+		button.frame = CGRectMake(buttonWidth * idx, 0.0, buttonWidth, buttonHeight);
+	}];
+}
+
+- (AYVibrantButton *)buttonAtIndex:(NSUInteger)index {
+	return self.buttons[index];
+}
+
+#pragma mark - Override Setters
+
+- (void)setAnimated:(BOOL)animated {
+	_animated = animated;
+	for (AYVibrantButton *button in self.buttons) {
+		button.animated = animated;
+	}
+}
+
+- (void)setAnimationDuration:(CGFloat)animationDuration {
+	_animationDuration = animationDuration;
+	for (AYVibrantButton *button in self.buttons) {
+		button.animationDuration = animationDuration;
+	}
+}
+
+- (void)setTranslucencyAlphaNormal:(CGFloat)translucencyAlphaNormal {
+	_translucencyAlphaNormal = translucencyAlphaNormal;
+	for (AYVibrantButton *button in self.buttons) {
+		button.translucencyAlphaNormal = translucencyAlphaNormal;
+	}
+}
+
+- (void)setTranslucencyAlphaHighlighted:(CGFloat)translucencyAlphaHighlighted {
+	_translucencyAlphaHighlighted = translucencyAlphaHighlighted;
+	for (AYVibrantButton *button in self.buttons) {
+		button.translucencyAlphaHighlighted = translucencyAlphaHighlighted;
+	}
+}
+
+- (void)setCornerRadius:(CGFloat)cornerRadius {
+	_cornerRadius = cornerRadius;
+	[self.buttons.firstObject setCornerRadius:cornerRadius];
+	[self.buttons.lastObject setCornerRadius:cornerRadius];
+}
+
+- (void)setBorderWidth:(CGFloat)borderWidth {
+	_borderWidth = borderWidth;
+	for (AYVibrantButton *button in self.buttons) {
+		button.borderWidth = borderWidth;
+	}
+}
+
+- (void)setFont:(UIFont *)font {
+	_font = font;
+	[self.buttons makeObjectsPerformSelector:@selector(setFont:) withObject:font];
+}
+
+#ifdef __IPHONE_8_0
+- (void)setVibrancyEffect:(UIVibrancyEffect *)vibrancyEffect {
+	_vibrancyEffect = vibrancyEffect;
+	[self.buttons makeObjectsPerformSelector:@selector(setVibrancyEffect:) withObject:vibrancyEffect];
+}
+#endif
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor {
+	_backgroundColor = backgroundColor;
+	[self.buttons makeObjectsPerformSelector:@selector(setBackgroundColor:) withObject:backgroundColor];
+}
+
+#pragma mark - Private Methods
+
+- (void)_initButtonGroupWithSelector:(SEL)selector andObjects:(NSArray *)objects style:(AYVibrantButtonStyle)style {
+	
+	_cornerRadius = kAYVibrantButtonDefaultCornerRadius;
+	_borderWidth = kAYVibrantButtonDefaultBorderWidth;
+	
+	self.opaque = NO;
+	self.userInteractionEnabled = YES;
+	
+	NSMutableArray *buttons = [NSMutableArray array];
+	NSUInteger count = objects.count;
+	
+	[objects enumerateObjectsUsingBlock:^void(id object, NSUInteger idx, BOOL *stop) {
+		
+		AYVibrantButton *button = [[AYVibrantButton alloc] initWithFrame:CGRectZero style:style];
+		
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+		[button performSelector:selector withObject:object];
+#pragma clang diagnostic pop
+		
+		if (count == 1) {
+			button.roundingCorners = UIRectCornerAllCorners;
+		} else if (idx == 0) {
+			button.roundingCorners = UIRectCornerTopLeft | UIRectCornerBottomLeft;
+			button.hideRightBorder = YES;
+		} else if (idx == count - 1) {
+			button.roundingCorners = UIRectCornerTopRight | UIRectCornerBottomRight;
+		} else {
+			button.roundingCorners = (UIRectCorner)0;
+			button.cornerRadius = 0;
+			button.hideRightBorder = YES;
+		}
+		
+		[self addSubview:button];
+		[buttons addObject:button];
+	}];
+	
+	self.buttons = buttons;
+	self.buttonCount = count;
 }
 
 @end

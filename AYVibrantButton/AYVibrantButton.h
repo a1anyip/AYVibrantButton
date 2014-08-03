@@ -28,6 +28,8 @@
 
 @import UIKit;
 
+/** AYVibrantButton **/
+
 typedef enum {
 	
 	AYVibrantButtonStyleInvert,
@@ -39,15 +41,16 @@ typedef enum {
 @interface AYVibrantButton : UIButton
 
 @property (nonatomic, assign) BOOL animated;
-@property (nonatomic, assign) CGFloat animationInterval;
+@property (nonatomic, assign) CGFloat animationDuration;
+@property (nonatomic, assign) CGFloat alpha;
 @property (nonatomic, assign) CGFloat translucencyAlphaNormal;
 @property (nonatomic, assign) CGFloat translucencyAlphaHighlighted;
 @property (nonatomic, assign) CGFloat cornerRadius;
+@property (nonatomic, assign) UIRectCorner roundingCorners;
 @property (nonatomic, assign) CGFloat borderWidth;
 @property (nonatomic, strong) UIImage *icon;
 @property (nonatomic, copy)   NSString *text;
 @property (nonatomic, strong) UIFont *font;
-@property (nonatomic, assign) CGFloat alpha;
 
 #ifdef __IPHONE_8_0
 // the vibrancy effect to be applied on the button
@@ -62,6 +65,8 @@ typedef enum {
 
 @end
 
+/** AYVibrantButtonOverlay **/
+
 typedef enum {
 	
 	AYVibrantButtonOverlayStyleNormal,
@@ -73,6 +78,7 @@ typedef enum {
 
 // numeric configurations
 @property (nonatomic, assign) CGFloat cornerRadius;
+@property (nonatomic, assign) UIRectCorner roundingCorners;
 @property (nonatomic, assign) CGFloat borderWidth;
 
 // icon image
@@ -86,5 +92,32 @@ typedef enum {
 @property (nonatomic, strong) UIColor *backgroundColor;
 
 - (instancetype)initWithStyle:(AYVibrantButtonOverlayStyle)style;
+
+@end
+
+/** AYVibrantButtonGroup **/
+
+@interface AYVibrantButtonGroup : UIView
+
+@property (nonatomic, assign) BOOL animated;
+@property (nonatomic, assign) CGFloat animationDuration;
+@property (nonatomic, assign) CGFloat translucencyAlphaNormal;
+@property (nonatomic, assign) CGFloat translucencyAlphaHighlighted;
+@property (nonatomic, assign) CGFloat cornerRadius;
+@property (nonatomic, assign) CGFloat borderWidth;
+@property (nonatomic, strong) UIFont *font;
+
+#ifdef __IPHONE_8_0
+// the vibrancy effect to be applied on the button
+@property (nonatomic, strong) UIVibrancyEffect *vibrancyEffect;
+#endif
+
+// the background color when vibrancy effect is nil, or not supported.
+@property (nonatomic, strong) UIColor *backgroundColor;
+
+- (instancetype)initWithFrame:(CGRect)frame buttonTitles:(NSArray *)buttonTitles style:(AYVibrantButtonStyle)style;
+- (instancetype)initWithFrame:(CGRect)frame buttonIcons:(NSArray *)buttonIcons style:(AYVibrantButtonStyle)style;
+
+- (AYVibrantButton *)buttonAtIndex:(NSUInteger)index;
 
 @end
