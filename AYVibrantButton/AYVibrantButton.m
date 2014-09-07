@@ -42,7 +42,7 @@
 
 @interface AYVibrantButton () {
 	
-	__strong UIColor *_backgroundColor;
+	__strong UIColor *_highlightColor;
 }
 
 @property (nonatomic, assign) AYVibrantButtonStyle style;
@@ -66,7 +66,7 @@
 @interface AYVibrantButtonOverlay () {
 	
 	__strong UIFont *_font;
-	__strong UIColor *_backgroundColor;
+	__strong UIColor *_highlightColor;
 }
 
 @property (nonatomic, assign) AYVibrantButtonOverlayStyle style;
@@ -209,8 +209,8 @@
 
 #pragma mark - Override Getters
 
-- (UIColor *)backgroundColor {
-	return _backgroundColor == nil ? kAYVibrantButtonDefaultBackgroundColor : _backgroundColor;
+- (UIColor *)highlightColor {
+	return _highlightColor == nil ? kAYVibrantButtonDefaultBackgroundColor : _highlightColor;
 }
 
 #pragma mark - Override Setters
@@ -294,9 +294,9 @@
 }
 #endif
 
-- (void)setBackgroundColor:(UIColor *)backgroundColor {
-	self.normalOverlay.backgroundColor = backgroundColor;
-	self.highlightedOverlay.backgroundColor = backgroundColor;
+- (void)setHighlightColor:(UIColor *)backgroundColor {
+	self.normalOverlay.highlightColor = backgroundColor;
+	self.highlightedOverlay.highlightColor = backgroundColor;
 }
 
 - (void)setHideRightBorder:(BOOL)hideRightBorder {
@@ -341,8 +341,8 @@
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextClearRect(context, self.bounds);
 	
-	[self.backgroundColor setStroke];
-	[self.backgroundColor setFill];
+	[self.highlightColor setStroke];
+	[self.highlightColor setFill];
 	
 	CGRect boxRect = CGRectInset(self.bounds, self.borderWidth / 2, self.borderWidth / 2);
 	
@@ -400,7 +400,7 @@
 			CGContextSetBlendMode(context, kCGBlendModeClear);
 		}
 		
-		[self.text drawInRect:CGRectMake(0.0, (size.height - self.textHeight) / 2, size.width, self.textHeight) withAttributes:@{ NSFontAttributeName:self.font, NSForegroundColorAttributeName:self.backgroundColor, NSParagraphStyleAttributeName:style }];
+		[self.text drawInRect:CGRectMake(0.0, (size.height - self.textHeight) / 2, size.width, self.textHeight) withAttributes:@{ NSFontAttributeName:self.font, NSForegroundColorAttributeName:self.highlightColor, NSParagraphStyleAttributeName:style }];
 	}
 }
 
@@ -410,8 +410,8 @@
 	return _font == nil ? [UIFont systemFontOfSize:kAYVibrantButtonDefaultFontSize] : _font;
 }
 
-- (UIColor *)backgroundColor {
-	return _backgroundColor == nil ? kAYVibrantButtonDefaultBackgroundColor : _backgroundColor;
+- (UIColor *)highlightColor {
+	return _highlightColor == nil ? kAYVibrantButtonDefaultBackgroundColor : _highlightColor;
 }
 
 #pragma mark - Override Setters
@@ -450,8 +450,8 @@
 	[self setNeedsDisplay];
 }
 
-- (void)setBackgroundColor:(UIColor *)backgroundColor {
-	_backgroundColor = backgroundColor;
+- (void)setHighlightColor:(UIColor *)backgroundColor {
+	_highlightColor = backgroundColor;
 	[self setNeedsDisplay];
 }
 
@@ -569,9 +569,9 @@
 }
 #endif
 
-- (void)setBackgroundColor:(UIColor *)backgroundColor {
-	_backgroundColor = backgroundColor;
-	[self.buttons makeObjectsPerformSelector:@selector(setBackgroundColor:) withObject:backgroundColor];
+- (void)setHighlightColor:(UIColor *)backgroundColor {
+	_highlightColor = backgroundColor;
+	[self.buttons makeObjectsPerformSelector:@selector(setHighlightColor:) withObject:backgroundColor];
 }
 
 #pragma mark - Private Methods
