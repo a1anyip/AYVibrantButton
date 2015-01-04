@@ -52,6 +52,8 @@ typedef enum {
 @property (nonatomic, copy)   NSString *text;
 @property (nonatomic, strong) UIFont *font;
 
+@property (nonatomic, assign) AYVibrantButtonStyle style;
+
 #ifdef __IPHONE_8_0
 // the vibrancy effect to be applied on the button
 @property (nonatomic, strong) UIVibrancyEffect *vibrancyEffect;
