@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/a1anyip/AYVibrantButton"
   s.license      = { :type => "MIT" }
   s.author       = { "Alan Yip" => "alan@tweak.cc" }
-  s.platform     = :ios, "7.0"
+  s.platform     = :ios, "6.1"
   s.source       = { :git => "https://github.com/a1anyip/AYVibrantButton.git", :tag => "1.0.3" }
   s.source_files = "AYVibrantButton"
   s.framework    = "UIKit"
