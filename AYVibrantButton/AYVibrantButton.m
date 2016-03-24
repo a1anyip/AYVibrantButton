@@ -38,6 +38,8 @@
 #define kAYVibrantButtonDefaultFontSize 14.0
 #define kAYVibrantButtonDefaultBackgroundColor [UIColor whiteColor]
 
+#define kAYVibrantButtonTextIconSpacing 3.0
+
 /** AYVibrantButton **/
 
 @interface AYVibrantButton () {
@@ -361,12 +363,41 @@
 	}
 	
 	CGContextClipToRect(context, boxRect);
-	
+	////
+    
+    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+		style.lineBreakMode = NSLineBreakByTruncatingTail;
+		style.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *textAttributes=@{ NSFontAttributeName:self.font, NSForegroundColorAttributeName:self.backgroundColor, NSParagraphStyleAttributeName:style };
+    
+    CGSize iconSize=(self.icon ? self.icon.size : CGSizeZero);
+    
+	// draw text
+	if (self.text != nil) {
+		
+		if (self.style == AYVibrantButtonOverlayStyleInvert) {
+			// this will make the drawInRect below clear the text area
+			CGContextSetBlendMode(context, kCGBlendModeClear);
+		}
+		
+        CGFloat textXOffset=(iconSize.width / 2)+kAYVibrantButtonTextIconSpacing;
+        
+        [self.text drawInRect:CGRectMake(textXOffset, (size.height - self.textHeight) / 2, size.width-textXOffset, self.textHeight) withAttributes:textAttributes];
+	}
+    
 	// draw icon
 	if (self.icon != nil) {
 		
-		CGSize iconSize = self.icon.size;
-		CGRect iconRect = CGRectMake((size.width - iconSize.width) / 2,
+        CGRect textRect=CGRectZero;
+        
+        if (self.text!=nil)
+        {
+            textRect=CGRectInset([self.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:textAttributes context:nil], -kAYVibrantButtonTextIconSpacing - (iconSize.width / 2), 0);
+            
+        }
+        
+		CGRect iconRect = CGRectMake((size.width - iconSize.width - textRect.size.width) / 2,
 									 (size.height - iconSize.height) / 2,
 									 iconSize.width,
 									 iconSize.height);
@@ -388,20 +419,6 @@
 		CGContextDrawImage(context, iconRect, self.icon.CGImage);
 	}
 	
-	// draw text
-	if (self.text != nil) {
-		
-		NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-		style.lineBreakMode = NSLineBreakByTruncatingTail;
-		style.alignment = NSTextAlignmentCenter;
-		
-		if (self.style == AYVibrantButtonOverlayStyleInvert) {
-			// this will make the drawInRect below clear the text area
-			CGContextSetBlendMode(context, kCGBlendModeClear);
-		}
-		
-		[self.text drawInRect:CGRectMake(0.0, (size.height - self.textHeight) / 2, size.width, self.textHeight) withAttributes:@{ NSFontAttributeName:self.font, NSForegroundColorAttributeName:self.backgroundColor, NSParagraphStyleAttributeName:style }];
-	}
 }
 
 #pragma mark - Override Getters
@@ -433,12 +450,10 @@
 
 - (void)setIcon:(UIImage *)icon {
 	_icon = icon;
-	_text = nil;
 	[self setNeedsDisplay];
 }
 
 - (void)setText:(NSString *)text {
-	_icon = nil;
 	_text = [text copy];
 	[self _updateTextHeight];
 	[self setNeedsDisplay];
