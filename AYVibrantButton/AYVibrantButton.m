@@ -148,17 +148,19 @@
 	
 	if (self.style == AYVibrantButtonStyleFill) {
 		self.normalOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleInvert];
+	} else if (self.style == AYVibrantButtonStyleInvertWithoutNormalTint) {
+		self.normalOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleNormalWithoutTint];
 	} else {
 		self.normalOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleNormal];
 	}
-	
-	if (self.style == AYVibrantButtonStyleInvert) {
+    
+	if (self.style == AYVibrantButtonStyleInvert || self.style == AYVibrantButtonStyleInvertWithoutNormalTint) {
 		self.highlightedOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleInvert];
 		self.highlightedOverlay.alpha = 0.0;
 	} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
 		self.normalOverlay.alpha = self.translucencyAlphaNormal * self.alpha;
 	}
-	
+    
 #ifndef __IPHONE_8_0
 	// for iOS 8, these two overlay views will be added as subviews in setVibrancyEffect:
 	[self addSubview:self.normalOverlay];
@@ -174,7 +176,7 @@
 	self.activeTouch = YES;
 
 	void(^update)(void) = ^(void) {
-		if (self.style == AYVibrantButtonStyleInvert) {
+		if (self.style == AYVibrantButtonStyleInvert || self.style == AYVibrantButtonStyleInvertWithoutNormalTint) {
 			self.normalOverlay.alpha = 0.0;
 			self.highlightedOverlay.alpha = self.alpha;
 		} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
@@ -194,7 +196,7 @@
 	self.activeTouch = NO;
 
 	void(^update)(void) = ^(void) {
-		if (self.style == AYVibrantButtonStyleInvert) {
+		if (self.style == AYVibrantButtonStyleInvert || self.style == AYVibrantButtonStyleInvertWithoutNormalTint) {
 			self.normalOverlay.alpha = self.alpha;
 			self.highlightedOverlay.alpha = 0.0;
 		} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
@@ -222,20 +224,21 @@
 	_alpha = alpha;
 	
 	if (self.activeTouch) {
-		if (self.style == AYVibrantButtonStyleInvert) {
+		if (self.style == AYVibrantButtonStyleInvert || self.style == AYVibrantButtonStyleInvertWithoutNormalTint) {
 			self.normalOverlay.alpha = 0.0;
 			self.highlightedOverlay.alpha = self.alpha;
 		} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
 			self.normalOverlay.alpha = self.translucencyAlphaHighlighted * self.alpha;
 		}
 	} else {
-		if (self.style == AYVibrantButtonStyleInvert) {
+		if (self.style == AYVibrantButtonStyleInvert || self.style == AYVibrantButtonStyleInvertWithoutNormalTint) {
 			self.normalOverlay.alpha = self.alpha;
 			self.highlightedOverlay.alpha = 0.0;
 		} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
 			self.normalOverlay.alpha = self.translucencyAlphaNormal * self.alpha;
 		}
 	}
+    
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {

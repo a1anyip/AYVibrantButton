@@ -34,8 +34,9 @@ typedef enum {
 	
 	AYVibrantButtonStyleInvert,
 	AYVibrantButtonStyleTranslucent,
-	AYVibrantButtonStyleFill
-	
+	AYVibrantButtonStyleFill,
+    AYVibrantButtonStyleInvertWithoutNormalTint // NOTE: I was experiencing a bug with it drawing borders around the icons. Since I didn't need tint in a normal state, I created this to disable it until the bug is fixed. -@benguild
+    
 } AYVibrantButtonStyle;
 
 @interface AYVibrantButton : UIButton
@@ -70,7 +71,8 @@ typedef enum {
 typedef enum {
 	
 	AYVibrantButtonOverlayStyleNormal,
-	AYVibrantButtonOverlayStyleInvert
+	AYVibrantButtonOverlayStyleInvert,
+    AYVibrantButtonOverlayStyleNormalWithoutTint // See note above about `AYVibrantButtonStyleInvertWithoutNormalTint`. -@benguild
 	
 } AYVibrantButtonOverlayStyle;
 
