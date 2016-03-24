@@ -58,8 +58,9 @@ typedef enum {
 @property (nonatomic, strong) UIVibrancyEffect *vibrancyEffect;
 #endif
 
-// the background color when vibrancy effect is nil, or not supported.
+// the background and (optionally distinct) border color when vibrancy effect is nil, or not supported.
 @property (nonatomic, strong) UIColor *backgroundColor;
+@property (nonatomic, strong) UIColor *borderColor;
 
 // this is the only method to initialize a vibrant button
 - (instancetype)initWithFrame:(CGRect)frame style:(AYVibrantButtonStyle)style;
@@ -90,8 +91,9 @@ typedef enum {
 @property (nonatomic, copy)   NSString *text;
 @property (nonatomic, strong) UIFont *font;
 
-// background color
+// background and border color
 @property (nonatomic, strong) UIColor *backgroundColor;
+@property (nonatomic, strong) UIColor *borderColor;
 
 - (instancetype)initWithStyle:(AYVibrantButtonOverlayStyle)style;
 
@@ -114,8 +116,9 @@ typedef enum {
 @property (nonatomic, strong) UIVibrancyEffect *vibrancyEffect;
 #endif
 
-// the background color when vibrancy effect is nil, or not supported.
+// the background and (optionally distinct) border color when vibrancy effect is nil, or not supported.
 @property (nonatomic, strong) UIColor *backgroundColor;
+@property (nonatomic, strong) UIColor *borderColor;
 
 - (instancetype)initWithFrame:(CGRect)frame buttonTitles:(NSArray *)buttonTitles style:(AYVibrantButtonStyle)style;
 - (instancetype)initWithFrame:(CGRect)frame buttonIcons:(NSArray *)buttonIcons style:(AYVibrantButtonStyle)style;

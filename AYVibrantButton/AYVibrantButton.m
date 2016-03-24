@@ -45,6 +45,7 @@
 @interface AYVibrantButton () {
 	
 	__strong UIColor *_backgroundColor;
+    __strong UIColor *_borderColor;
 }
 
 @property (nonatomic, assign) AYVibrantButtonStyle style;
@@ -69,6 +70,7 @@
 	
 	__strong UIFont *_font;
 	__strong UIColor *_backgroundColor;
+    __strong UIColor *_borderColor;
 }
 
 @property (nonatomic, assign) AYVibrantButtonOverlayStyle style;
@@ -217,6 +219,10 @@
 	return _backgroundColor == nil ? kAYVibrantButtonDefaultBackgroundColor : _backgroundColor;
 }
 
+- (UIColor *)borderColor {
+    return _borderColor ?: [self backgroundColor];
+}
+
 #pragma mark - Override Setters
 
 - (void)setAlpha:(CGFloat)alpha {
@@ -304,6 +310,11 @@
 	self.highlightedOverlay.backgroundColor = backgroundColor;
 }
 
+- (void)setBorderColor:(UIColor *)borderColor {
+    self.normalOverlay.borderColor = borderColor;
+    self.highlightedOverlay.borderColor = borderColor;
+}
+
 - (void)setHideRightBorder:(BOOL)hideRightBorder {
 	_hideRightBorder = hideRightBorder;
 	self.normalOverlay.hideRightBorder = hideRightBorder;
@@ -346,7 +357,7 @@
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextClearRect(context, self.bounds);
 	
-	[self.backgroundColor setStroke];
+	[[self borderColor] setStroke];
 	[self.backgroundColor setFill];
 	
 	CGRect boxRect = CGRectInset(self.bounds, self.borderWidth / 2, self.borderWidth / 2);
@@ -434,6 +445,10 @@
 	return _backgroundColor == nil ? kAYVibrantButtonDefaultBackgroundColor : _backgroundColor;
 }
 
+- (UIColor *)borderColor {
+	return _borderColor ?: [self backgroundColor];
+}
+
 #pragma mark - Override Setters
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
@@ -471,6 +486,11 @@
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
 	_backgroundColor = backgroundColor;
 	[self setNeedsDisplay];
+}
+
+- (void)setBorderColor:(UIColor *)borderColor {
+    _borderColor = borderColor;
+    [self setNeedsDisplay];
 }
 
 - (void)setHideRightBorder:(BOOL)hideRightBorder {
@@ -590,6 +610,11 @@
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
 	_backgroundColor = backgroundColor;
 	[self.buttons makeObjectsPerformSelector:@selector(setBackgroundColor:) withObject:backgroundColor];
+}
+
+- (void)setBorderColor:(UIColor *)borderColor {
+    _borderColor = borderColor;
+    [self.buttons makeObjectsPerformSelector:@selector(setBorderColor:) withObject:borderColor];
 }
 
 #pragma mark - Private Methods
