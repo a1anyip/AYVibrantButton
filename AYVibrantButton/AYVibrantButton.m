@@ -38,11 +38,14 @@
 #define kAYVibrantButtonDefaultFontSize 14.0
 #define kAYVibrantButtonDefaultBackgroundColor [UIColor whiteColor]
 
+#define kAYVibrantButtonTextIconSpacing 3.0
+
 /** AYVibrantButton **/
 
 @interface AYVibrantButton () {
 	
 	__strong UIColor *_backgroundColor;
+    __strong UIColor *_borderColor;
 }
 
 @property (nonatomic, assign) AYVibrantButtonStyle style;
@@ -67,6 +70,7 @@
 	
 	__strong UIFont *_font;
 	__strong UIColor *_backgroundColor;
+    __strong UIColor *_borderColor;
 }
 
 @property (nonatomic, assign) AYVibrantButtonOverlayStyle style;
@@ -138,25 +142,38 @@
 #ifdef __IPHONE_8_0
 	self.visualEffectView.frame = self.bounds;
 #endif
+    
+    bool needsDisplay=!CGRectEqualToRect(self.normalOverlay.frame, self.bounds);
+    
 	self.normalOverlay.frame = self.bounds;
 	self.highlightedOverlay.frame = self.bounds;
+    
+    if (needsDisplay)
+    {
+        [self.normalOverlay setNeedsDisplay];
+        [self.highlightedOverlay setNeedsDisplay];
+        
+    }
+    
 }
 
 - (void)createOverlays {
 	
 	if (self.style == AYVibrantButtonStyleFill) {
 		self.normalOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleInvert];
+	} else if (self.style == AYVibrantButtonStyleInvertWithoutNormalTint) {
+		self.normalOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleNormalWithoutTint];
 	} else {
 		self.normalOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleNormal];
 	}
-	
-	if (self.style == AYVibrantButtonStyleInvert) {
+    
+	if (self.style == AYVibrantButtonStyleInvert || self.style == AYVibrantButtonStyleInvertWithoutNormalTint) {
 		self.highlightedOverlay = [[AYVibrantButtonOverlay alloc] initWithStyle:AYVibrantButtonOverlayStyleInvert];
 		self.highlightedOverlay.alpha = 0.0;
 	} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
 		self.normalOverlay.alpha = self.translucencyAlphaNormal * self.alpha;
 	}
-	
+    
 #ifndef __IPHONE_8_0
 	// for iOS 8, these two overlay views will be added as subviews in setVibrancyEffect:
 	[self addSubview:self.normalOverlay];
@@ -172,7 +189,7 @@
 	self.activeTouch = YES;
 
 	void(^update)(void) = ^(void) {
-		if (self.style == AYVibrantButtonStyleInvert) {
+		if (self.style == AYVibrantButtonStyleInvert || self.style == AYVibrantButtonStyleInvertWithoutNormalTint) {
 			self.normalOverlay.alpha = 0.0;
 			self.highlightedOverlay.alpha = self.alpha;
 		} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
@@ -192,7 +209,7 @@
 	self.activeTouch = NO;
 
 	void(^update)(void) = ^(void) {
-		if (self.style == AYVibrantButtonStyleInvert) {
+		if (self.style == AYVibrantButtonStyleInvert || self.style == AYVibrantButtonStyleInvertWithoutNormalTint) {
 			self.normalOverlay.alpha = self.alpha;
 			self.highlightedOverlay.alpha = 0.0;
 		} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
@@ -213,6 +230,10 @@
 	return _backgroundColor == nil ? kAYVibrantButtonDefaultBackgroundColor : _backgroundColor;
 }
 
+- (UIColor *)borderColor {
+    return _borderColor ?: [self backgroundColor];
+}
+
 #pragma mark - Override Setters
 
 - (void)setAlpha:(CGFloat)alpha {
@@ -220,20 +241,21 @@
 	_alpha = alpha;
 	
 	if (self.activeTouch) {
-		if (self.style == AYVibrantButtonStyleInvert) {
+		if (self.style == AYVibrantButtonStyleInvert || self.style == AYVibrantButtonStyleInvertWithoutNormalTint) {
 			self.normalOverlay.alpha = 0.0;
 			self.highlightedOverlay.alpha = self.alpha;
 		} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
 			self.normalOverlay.alpha = self.translucencyAlphaHighlighted * self.alpha;
 		}
 	} else {
-		if (self.style == AYVibrantButtonStyleInvert) {
+		if (self.style == AYVibrantButtonStyleInvert || self.style == AYVibrantButtonStyleInvertWithoutNormalTint) {
 			self.normalOverlay.alpha = self.alpha;
 			self.highlightedOverlay.alpha = 0.0;
 		} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
 			self.normalOverlay.alpha = self.translucencyAlphaNormal * self.alpha;
 		}
 	}
+    
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
@@ -299,6 +321,11 @@
 	self.highlightedOverlay.backgroundColor = backgroundColor;
 }
 
+- (void)setBorderColor:(UIColor *)borderColor {
+    self.normalOverlay.borderColor = borderColor;
+    self.highlightedOverlay.borderColor = borderColor;
+}
+
 - (void)setHideRightBorder:(BOOL)hideRightBorder {
 	_hideRightBorder = hideRightBorder;
 	self.normalOverlay.hideRightBorder = hideRightBorder;
@@ -341,7 +368,7 @@
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextClearRect(context, self.bounds);
 	
-	[self.backgroundColor setStroke];
+	[[self borderColor] setStroke];
 	[self.backgroundColor setFill];
 	
 	CGRect boxRect = CGRectInset(self.bounds, self.borderWidth / 2, self.borderWidth / 2);
@@ -361,12 +388,41 @@
 	}
 	
 	CGContextClipToRect(context, boxRect);
-	
+	////
+    
+    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+		style.lineBreakMode = NSLineBreakByTruncatingTail;
+		style.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary *textAttributes=@{ NSFontAttributeName:self.font, NSForegroundColorAttributeName:self.backgroundColor, NSParagraphStyleAttributeName:style };
+    
+    CGSize iconSize=(self.icon ? self.icon.size : CGSizeZero);
+    
+	// draw text
+	if (self.text != nil) {
+		
+		if (self.style == AYVibrantButtonOverlayStyleInvert) {
+			// this will make the drawInRect below clear the text area
+			CGContextSetBlendMode(context, kCGBlendModeClear);
+		}
+		
+        CGFloat textXOffset=(iconSize.width / 2)+kAYVibrantButtonTextIconSpacing;
+        
+        [self.text drawInRect:CGRectMake(textXOffset, (size.height - self.textHeight) / 2, size.width-textXOffset, self.textHeight) withAttributes:textAttributes];
+	}
+    
 	// draw icon
 	if (self.icon != nil) {
 		
-		CGSize iconSize = self.icon.size;
-		CGRect iconRect = CGRectMake((size.width - iconSize.width) / 2,
+        CGRect textRect=CGRectZero;
+        
+        if (self.text!=nil)
+        {
+            textRect=CGRectInset([self.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:textAttributes context:nil], -kAYVibrantButtonTextIconSpacing - (iconSize.width / 2), 0);
+            
+        }
+        
+		CGRect iconRect = CGRectMake((size.width - iconSize.width - textRect.size.width) / 2,
 									 (size.height - iconSize.height) / 2,
 									 iconSize.width,
 									 iconSize.height);
@@ -388,20 +444,6 @@
 		CGContextDrawImage(context, iconRect, self.icon.CGImage);
 	}
 	
-	// draw text
-	if (self.text != nil) {
-		
-		NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-		style.lineBreakMode = NSLineBreakByTruncatingTail;
-		style.alignment = NSTextAlignmentCenter;
-		
-		if (self.style == AYVibrantButtonOverlayStyleInvert) {
-			// this will make the drawInRect below clear the text area
-			CGContextSetBlendMode(context, kCGBlendModeClear);
-		}
-		
-		[self.text drawInRect:CGRectMake(0.0, (size.height - self.textHeight) / 2, size.width, self.textHeight) withAttributes:@{ NSFontAttributeName:self.font, NSForegroundColorAttributeName:self.backgroundColor, NSParagraphStyleAttributeName:style }];
-	}
 }
 
 #pragma mark - Override Getters
@@ -412,6 +454,10 @@
 
 - (UIColor *)backgroundColor {
 	return _backgroundColor == nil ? kAYVibrantButtonDefaultBackgroundColor : _backgroundColor;
+}
+
+- (UIColor *)borderColor {
+	return _borderColor ?: [self backgroundColor];
 }
 
 #pragma mark - Override Setters
@@ -433,12 +479,10 @@
 
 - (void)setIcon:(UIImage *)icon {
 	_icon = icon;
-	_text = nil;
 	[self setNeedsDisplay];
 }
 
 - (void)setText:(NSString *)text {
-	_icon = nil;
 	_text = [text copy];
 	[self _updateTextHeight];
 	[self setNeedsDisplay];
@@ -453,6 +497,11 @@
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
 	_backgroundColor = backgroundColor;
 	[self setNeedsDisplay];
+}
+
+- (void)setBorderColor:(UIColor *)borderColor {
+    _borderColor = borderColor;
+    [self setNeedsDisplay];
 }
 
 - (void)setHideRightBorder:(BOOL)hideRightBorder {
@@ -572,6 +621,11 @@
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
 	_backgroundColor = backgroundColor;
 	[self.buttons makeObjectsPerformSelector:@selector(setBackgroundColor:) withObject:backgroundColor];
+}
+
+- (void)setBorderColor:(UIColor *)borderColor {
+    _borderColor = borderColor;
+    [self.buttons makeObjectsPerformSelector:@selector(setBorderColor:) withObject:borderColor];
 }
 
 #pragma mark - Private Methods
