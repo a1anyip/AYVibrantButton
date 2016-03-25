@@ -142,8 +142,19 @@
 #ifdef __IPHONE_8_0
 	self.visualEffectView.frame = self.bounds;
 #endif
+    
+    bool needsDisplay=!CGRectEqualToRect(self.normalOverlay.frame, self.bounds);
+    
 	self.normalOverlay.frame = self.bounds;
 	self.highlightedOverlay.frame = self.bounds;
+    
+    if (needsDisplay)
+    {
+        [self.normalOverlay setNeedsDisplay];
+        [self.highlightedOverlay setNeedsDisplay];
+        
+    }
+    
 }
 
 - (void)createOverlays {
