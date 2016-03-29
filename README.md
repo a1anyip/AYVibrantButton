@@ -88,6 +88,11 @@ button.backgroundColor = [UIColor blackColor];
 
 ## Changelog
 
+### 1.0.4
+* Added `invertAlphaHighlighted` property
+* Changed the super class from `UIButton` to `UIControl`
+* Changed `backgroundColor` to `tintColor`
+
 ### 1.0.3
 * Added a new button style `AYVibrantButtonStyleFill`
 * Fixed an issue that setting button alpha removes the vibrancy effect

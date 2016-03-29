@@ -26,7 +26,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 
 /** AYVibrantButton **/
 
@@ -38,11 +38,12 @@ typedef enum {
 	
 } AYVibrantButtonStyle;
 
-@interface AYVibrantButton : UIButton
+@interface AYVibrantButton : UIControl
 
 @property (nonatomic, assign) BOOL animated;
 @property (nonatomic, assign) CGFloat animationDuration;
 @property (nonatomic, assign) CGFloat alpha;
+@property (nonatomic, assign) CGFloat invertAlphaHighlighted;
 @property (nonatomic, assign) CGFloat translucencyAlphaNormal;
 @property (nonatomic, assign) CGFloat translucencyAlphaHighlighted;
 @property (nonatomic, assign) CGFloat cornerRadius;
@@ -57,8 +58,11 @@ typedef enum {
 @property (nonatomic, strong) UIVibrancyEffect *vibrancyEffect;
 #endif
 
-// the background color when vibrancy effect is nil, or not supported.
-@property (nonatomic, strong) UIColor *backgroundColor;
+// the deprecated background color
+@property (nonatomic, strong) UIColor *backgroundColor DEPRECATED_MSG_ATTRIBUTE("Use tintColor instead.");
+
+// the tint color when vibrancy effect is nil, or not supported.
+@property (nonatomic, strong) UIColor *tintColor;
 
 // this is the only method to initialize a vibrant button
 - (instancetype)initWithFrame:(CGRect)frame style:(AYVibrantButtonStyle)style;
@@ -88,8 +92,11 @@ typedef enum {
 @property (nonatomic, copy)   NSString *text;
 @property (nonatomic, strong) UIFont *font;
 
-// background color
-@property (nonatomic, strong) UIColor *backgroundColor;
+// the deprecated background color
+@property (nonatomic, strong) UIColor *backgroundColor DEPRECATED_MSG_ATTRIBUTE("Use tintColor instead.");
+
+// tint color
+@property (nonatomic, strong) UIColor *tintColor;
 
 - (instancetype)initWithStyle:(AYVibrantButtonOverlayStyle)style;
 
@@ -99,8 +106,12 @@ typedef enum {
 
 @interface AYVibrantButtonGroup : UIView
 
+@property (nonatomic, readonly) NSArray *buttons;
+@property (nonatomic, readonly) NSUInteger buttonCount;
+
 @property (nonatomic, assign) BOOL animated;
 @property (nonatomic, assign) CGFloat animationDuration;
+@property (nonatomic, assign) CGFloat invertAlphaHighlighted;
 @property (nonatomic, assign) CGFloat translucencyAlphaNormal;
 @property (nonatomic, assign) CGFloat translucencyAlphaHighlighted;
 @property (nonatomic, assign) CGFloat cornerRadius;
@@ -112,8 +123,11 @@ typedef enum {
 @property (nonatomic, strong) UIVibrancyEffect *vibrancyEffect;
 #endif
 
-// the background color when vibrancy effect is nil, or not supported.
-@property (nonatomic, strong) UIColor *backgroundColor;
+// the deprecated background color
+@property (nonatomic, strong) UIColor *backgroundColor DEPRECATED_MSG_ATTRIBUTE("Use tintColor instead.");
+
+// the tint color when vibrancy effect is nil, or not supported.
+@property (nonatomic, strong) UIColor *tintColor;
 
 - (instancetype)initWithFrame:(CGRect)frame buttonTitles:(NSArray *)buttonTitles style:(AYVibrantButtonStyle)style;
 - (instancetype)initWithFrame:(CGRect)frame buttonIcons:(NSArray *)buttonIcons style:(AYVibrantButtonStyle)style;

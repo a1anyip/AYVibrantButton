@@ -30,19 +30,20 @@
 
 #define kAYVibrantButtonDefaultAnimationDuration 0.15
 #define kAYVibrantButtonDefaultAlpha 1.0
+#define kAYVibrantButtonDefaultInvertAlphaHighlighted 1.0
 #define kAYVibrantButtonDefaultTranslucencyAlphaNormal 1.0
 #define kAYVibrantButtonDefaultTranslucencyAlphaHighlighted 0.5
 #define kAYVibrantButtonDefaultCornerRadius 4.0
 #define kAYVibrantButtonDefaultRoundingCorners UIRectCornerAllCorners
 #define kAYVibrantButtonDefaultBorderWidth 0.6
 #define kAYVibrantButtonDefaultFontSize 14.0
-#define kAYVibrantButtonDefaultBackgroundColor [UIColor whiteColor]
+#define kAYVibrantButtonDefaultTintColor [UIColor whiteColor]
 
 /** AYVibrantButton **/
 
 @interface AYVibrantButton () {
 	
-	__strong UIColor *_backgroundColor;
+	__strong UIColor *_tintColor;
 }
 
 @property (nonatomic, assign) AYVibrantButtonStyle style;
@@ -58,6 +59,7 @@
 @property (nonatomic, assign) BOOL hideRightBorder;
 
 - (void)createOverlays;
+- (void)updateOverlayAlpha;
 
 @end
 
@@ -66,7 +68,7 @@
 @interface AYVibrantButtonOverlay () {
 	
 	__strong UIFont *_font;
-	__strong UIColor *_backgroundColor;
+	__strong UIColor *_tintColor;
 }
 
 @property (nonatomic, assign) AYVibrantButtonOverlayStyle style;
@@ -115,6 +117,7 @@
 		_cornerRadius = kAYVibrantButtonDefaultCornerRadius;
 		_roundingCorners = kAYVibrantButtonDefaultRoundingCorners;
 		_borderWidth = kAYVibrantButtonDefaultBorderWidth;
+		_invertAlphaHighlighted = kAYVibrantButtonDefaultInvertAlphaHighlighted;
 		_translucencyAlphaNormal = kAYVibrantButtonDefaultTranslucencyAlphaNormal;
 		_translucencyAlphaHighlighted = kAYVibrantButtonDefaultTranslucencyAlphaHighlighted;
 		_alpha = kAYVibrantButtonDefaultAlpha;
@@ -162,7 +165,26 @@
 	[self addSubview:self.normalOverlay];
 	[self addSubview:self.highlightedOverlay];
 #endif
+	
+}
 
+- (void)updateOverlayAlpha {
+	
+	if (self.activeTouch) {
+		if (self.style == AYVibrantButtonStyleInvert) {
+			self.normalOverlay.alpha = 0.0;
+			self.highlightedOverlay.alpha = self.invertAlphaHighlighted * self.alpha;
+		} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
+			self.normalOverlay.alpha = self.translucencyAlphaHighlighted * self.alpha;
+		}
+	} else {
+		if (self.style == AYVibrantButtonStyleInvert) {
+			self.normalOverlay.alpha = self.alpha;
+			self.highlightedOverlay.alpha = 0.0;
+		} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
+			self.normalOverlay.alpha = self.translucencyAlphaNormal * self.alpha;
+		}
+	}
 }
 
 #pragma mark - Control Event Handlers
@@ -170,7 +192,7 @@
 - (void)touchDown {
 	
 	self.activeTouch = YES;
-
+	
 	void(^update)(void) = ^(void) {
 		if (self.style == AYVibrantButtonStyleInvert) {
 			self.normalOverlay.alpha = 0.0;
@@ -190,7 +212,7 @@
 - (void)touchUp {
 	
 	self.activeTouch = NO;
-
+	
 	void(^update)(void) = ^(void) {
 		if (self.style == AYVibrantButtonStyleInvert) {
 			self.normalOverlay.alpha = self.alpha;
@@ -209,31 +231,30 @@
 
 #pragma mark - Override Getters
 
-- (UIColor *)backgroundColor {
-	return _backgroundColor == nil ? kAYVibrantButtonDefaultBackgroundColor : _backgroundColor;
+- (UIColor *)tintColor {
+	return _tintColor == nil ? kAYVibrantButtonDefaultTintColor : _tintColor;
 }
 
 #pragma mark - Override Setters
 
 - (void)setAlpha:(CGFloat)alpha {
-	
 	_alpha = alpha;
-	
-	if (self.activeTouch) {
-		if (self.style == AYVibrantButtonStyleInvert) {
-			self.normalOverlay.alpha = 0.0;
-			self.highlightedOverlay.alpha = self.alpha;
-		} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
-			self.normalOverlay.alpha = self.translucencyAlphaHighlighted * self.alpha;
-		}
-	} else {
-		if (self.style == AYVibrantButtonStyleInvert) {
-			self.normalOverlay.alpha = self.alpha;
-			self.highlightedOverlay.alpha = 0.0;
-		} else if (self.style == AYVibrantButtonStyleTranslucent || self.style == AYVibrantButtonStyleFill) {
-			self.normalOverlay.alpha = self.translucencyAlphaNormal * self.alpha;
-		}
-	}
+	[self updateOverlayAlpha];
+}
+
+- (void)setInvertAlphaHighlighted:(CGFloat)invertAlphaHighlighted {
+	_invertAlphaHighlighted = invertAlphaHighlighted;
+	[self updateOverlayAlpha];
+}
+
+- (void)setTranslucencyAlphaNormal:(CGFloat)translucencyAlphaNormal {
+	_translucencyAlphaNormal = translucencyAlphaNormal;
+	[self updateOverlayAlpha];
+}
+
+- (void)setTranslucencyAlphaHighlighted:(CGFloat)translucencyAlphaHighlighted {
+	_translucencyAlphaHighlighted = translucencyAlphaHighlighted;
+	[self updateOverlayAlpha];
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
@@ -295,8 +316,13 @@
 #endif
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
-	self.normalOverlay.backgroundColor = backgroundColor;
-	self.highlightedOverlay.backgroundColor = backgroundColor;
+	NSLog(@"AYVibrantButton: backgroundColor is deprecated and has no effect. Use tintColor instead.");
+	[super setBackgroundColor:backgroundColor];
+}
+
+- (void)setTintColor:(UIColor *)tintColor {
+	self.normalOverlay.tintColor = tintColor;
+	self.highlightedOverlay.tintColor = tintColor;
 }
 
 - (void)setHideRightBorder:(BOOL)hideRightBorder {
@@ -341,8 +367,8 @@
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextClearRect(context, self.bounds);
 	
-	[self.backgroundColor setStroke];
-	[self.backgroundColor setFill];
+	[self.tintColor setStroke];
+	[self.tintColor setFill];
 	
 	CGRect boxRect = CGRectInset(self.bounds, self.borderWidth / 2, self.borderWidth / 2);
 	
@@ -400,7 +426,7 @@
 			CGContextSetBlendMode(context, kCGBlendModeClear);
 		}
 		
-		[self.text drawInRect:CGRectMake(0.0, (size.height - self.textHeight) / 2, size.width, self.textHeight) withAttributes:@{ NSFontAttributeName:self.font, NSForegroundColorAttributeName:self.backgroundColor, NSParagraphStyleAttributeName:style }];
+		[self.text drawInRect:CGRectMake(0.0, (size.height - self.textHeight) / 2, size.width, self.textHeight) withAttributes:@{ NSFontAttributeName:self.font, NSForegroundColorAttributeName:self.tintColor, NSParagraphStyleAttributeName:style }];
 	}
 }
 
@@ -410,8 +436,8 @@
 	return _font == nil ? [UIFont systemFontOfSize:kAYVibrantButtonDefaultFontSize] : _font;
 }
 
-- (UIColor *)backgroundColor {
-	return _backgroundColor == nil ? kAYVibrantButtonDefaultBackgroundColor : _backgroundColor;
+- (UIColor *)tintColor {
+	return _tintColor == nil ? kAYVibrantButtonDefaultTintColor : _tintColor;
 }
 
 #pragma mark - Override Setters
@@ -451,7 +477,12 @@
 }
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
-	_backgroundColor = backgroundColor;
+	NSLog(@"AYVibrantButtonOverlay: backgroundColor is deprecated and has no effect. Use tintColor instead.");
+	[super setBackgroundColor:backgroundColor];
+}
+
+- (void)setTintColor:(UIColor *)tintColor {
+	_tintColor = tintColor;
 	[self setNeedsDisplay];
 }
 
@@ -530,6 +561,13 @@
 	}
 }
 
+- (void)setInvertAlphaHighlighted:(CGFloat)invertAlphaHighlighted {
+	_invertAlphaHighlighted = invertAlphaHighlighted;
+	for (AYVibrantButton *button in self.buttons) {
+		button.invertAlphaHighlighted = invertAlphaHighlighted;
+	}
+}
+
 - (void)setTranslucencyAlphaNormal:(CGFloat)translucencyAlphaNormal {
 	_translucencyAlphaNormal = translucencyAlphaNormal;
 	for (AYVibrantButton *button in self.buttons) {
@@ -570,8 +608,13 @@
 #endif
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
-	_backgroundColor = backgroundColor;
-	[self.buttons makeObjectsPerformSelector:@selector(setBackgroundColor:) withObject:backgroundColor];
+	NSLog(@"AYVibrantButtonGroup: backgroundColor is deprecated and has no effect. Use tintColor instead.");
+	[super setBackgroundColor:backgroundColor];
+}
+
+- (void)setTintColor:(UIColor *)tintColor {
+	_tintColor = tintColor;
+	[self.buttons makeObjectsPerformSelector:@selector(setTintColor:) withObject:tintColor];
 }
 
 #pragma mark - Private Methods
