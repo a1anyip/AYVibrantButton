@@ -82,11 +82,16 @@ AYVibrantButton *button = [[AYVibrantButton alloc] initWithFrame:CGRectZero styl
 button.vibrancyEffect = nil;
 button.text = @"Any Color";
 button.font = [UIFont systemFontOfSize:18.0];
-button.backgroundColor = [UIColor blackColor];
+button.tintColor = [UIColor blackColor];
 [effectView.contentView addSubview:button];
 ```
 
 ## Changelog
+
+### 1.0.4
+* Added `invertAlphaHighlighted` property
+* Changed the super class from `UIButton` to `UIControl`
+* Changed `backgroundColor` to `tintColor`
 
 ### 1.0.3
 * Added a new button style `AYVibrantButtonStyleFill`
