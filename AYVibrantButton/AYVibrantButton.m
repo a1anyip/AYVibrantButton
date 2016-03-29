@@ -101,7 +101,7 @@
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super initWithCoder:aDecoder]) {
-        [self commonInit];
+        [self _init];
         self.font = self.titleLabel.font;
         self.icon = [self imageForState:UIControlStateNormal];
         self.text = [self titleForState:UIControlStateNormal];
@@ -113,12 +113,12 @@
 	if (self = [super initWithFrame:frame]) {
 		
 		self.style = style;
-        [self commonInit];
+        [self _init];
 	}
 	return self;
 }
 
-- (void) commonInit {
+- (void) _init {
     self.opaque = NO;
     self.userInteractionEnabled = YES;
 
