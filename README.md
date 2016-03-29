@@ -82,7 +82,7 @@ AYVibrantButton *button = [[AYVibrantButton alloc] initWithFrame:CGRectZero styl
 button.vibrancyEffect = nil;
 button.text = @"Any Color";
 button.font = [UIFont systemFontOfSize:18.0];
-button.backgroundColor = [UIColor blackColor];
+button.tintColor = [UIColor blackColor];
 [effectView.contentView addSubview:button];
 ```
 
