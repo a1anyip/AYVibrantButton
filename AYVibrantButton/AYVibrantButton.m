@@ -142,7 +142,10 @@
 	self.visualEffectView.frame = self.bounds;
 #endif
 	self.normalOverlay.frame = self.bounds;
+    [self.normalOverlay setNeedsDisplay];
+    
 	self.highlightedOverlay.frame = self.bounds;
+    [self.highlightedOverlay setNeedsDisplay];
 }
 
 - (void)createOverlays {
