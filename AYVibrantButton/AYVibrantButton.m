@@ -261,6 +261,8 @@
 	_cornerRadius = cornerRadius;
 	self.normalOverlay.cornerRadius = cornerRadius;
 	self.highlightedOverlay.cornerRadius = cornerRadius;
+    
+    _cornerRadius = cornerRadius;
 }
 
 - (void)setRoundingCorners:(UIRectCorner)roundingCorners {
@@ -273,24 +275,32 @@
 	_borderWidth = borderWidth;
 	self.normalOverlay.borderWidth = borderWidth;
 	self.highlightedOverlay.borderWidth = borderWidth;
+    
+    _borderWidth = borderWidth;
 }
 
 - (void)setIcon:(UIImage *)icon {
 	_icon = icon;
 	self.normalOverlay.icon = icon;
 	self.highlightedOverlay.icon = icon;
+    
+    _icon = icon;
 }
 
 - (void)setText:(NSString *)text {
 	_text = [text copy];
 	self.normalOverlay.text = text;
 	self.highlightedOverlay.text = text;
+    
+    _text = text;
 }
 
 - (void)setFont:(UIFont *)font {
 	_font = font;
 	self.normalOverlay.font = font;
 	self.highlightedOverlay.font = font;
+    
+    _font = font;
 }
 
 #ifdef __IPHONE_8_0
@@ -312,6 +322,8 @@
 		[self addSubview:self.normalOverlay];
 		[self addSubview:self.highlightedOverlay];
 	}
+    
+    _vibrancyEffect = vibrancyEffect;
 }
 #endif
 
